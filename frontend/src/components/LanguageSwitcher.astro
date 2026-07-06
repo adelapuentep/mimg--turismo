@@ -1,0 +1,41 @@
+---
+export interface Props {
+  currentLang: string;
+  translations: any[]; // The raw translations array from Directus
+  type: 'home' | 'item';
+  categoryTranslations?: any[]; // Only needed if it's an item nested in a category
+}
+
+const { currentLang, translations, type, categoryTranslations } = Astro.props;
+
+// Hardcoded available languages (can be fetched globally, but simple here)
+const availableLangs = ['es', 'en', 'pt', 'fr', 'de'];
+
+function getUrlForLang(lang: string) {
+  if (type === 'home') {
+    return `/${lang}`;
+  }
+  
+  // For items, find the localized category slug and item slug
+  const itemTranslation = translations?.find(t => t.languages_code === lang);
+  const catTranslation = categoryTranslations?.find(t => t.languages_code === lang);
+  
+  if (itemTranslation?.slug && catTranslation?.slug) {
+    return `/${lang}/${catTranslation.slug}/${itemTranslation.slug}`;
+  }
+  
+  // Fallback to home of that language if no translation exists
+  return `/${lang}`;
+}
+---
+
+<div class="flex gap-4">
+  {availableLangs.map((l) => (
+    <a 
+      href={getUrlForLang(l)} 
+      class={`uppercase text-sm font-semibold tracking-widest transition-colors ${currentLang === l ? 'text-terra-600 border-b-2 border-terra-600' : 'text-ink-500 hover:text-ink-900'}`}
+    >
+      {l}
+    </a>
+  ))}
+</div>

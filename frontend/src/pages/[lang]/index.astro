@@ -1,0 +1,62 @@
+---
+import { directus } from '../../lib/directus';
+import { readItems } from '@directus/sdk';
+import LanguageSwitcher from '../../components/LanguageSwitcher.astro';
+import '../../styles/global.css';
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  try {
+    const languages = await directus.request(readItems('languages', { fields: ['code'] }));
+    return languages.map((lang: any) => ({
+      params: { lang: lang.code },
+    }));
+  } catch (error) {
+    console.error('Failed to fetch languages for static paths', error);
+    return [
+      { params: { lang: 'es' } },
+      { params: { lang: 'en' } }
+    ];
+  }
+}
+
+const { lang } = Astro.params;
+
+let pageData = null;
+let allTranslations = [];
+try {
+  const home = await directus.request(readItems('Page_Home', {
+    fields: ['*', 'translations.*']
+  }));
+  allTranslations = home?.translations || [];
+  const translation = allTranslations.find((t: any) => t.languages_code === lang) || {};
+  pageData = { ...home, ...translation };
+} catch (error) {
+  console.error('Failed to fetch Page_Home content');
+}
+---
+
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{pageData?.title || 'Guayaquil Turismo'}</title>
+  </head>
+  <body>
+    <header class="p-6 flex justify-between items-center relative z-10">
+      <h1 class="text-2xl font-bold font-serif text-ink-900 tracking-tightest">Guayaquil.</h1>
+      <LanguageSwitcher currentLang={lang} translations={allTranslations} type="home" />
+    </header>
+
+    <main class="grain min-h-screen relative -mt-[88px] flex flex-col justify-center items-center px-4">
+      <div class="relative z-10 text-center max-w-5xl">
+        <h2 class="heading-hero text-gradient mb-6">
+          {pageData?.title || 'Descubre Guayaquil'}
+        </h2>
+        <div class="text-xl md:text-2xl text-ink-700 font-serif max-w-3xl mx-auto leading-relaxed" 
+             set:html={pageData?.content || '<p>La Perla del Pacífico te espera.</p>'} />
+      </div>
+    </main>
+  </body>
+</html>

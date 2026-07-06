@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgis/postgis:15-3.3-alpine # PostGIS is often useful for tourism sites (maps), though standard postgres works too. Let's stick to standard postgres for simplicity unless PostGIS is requested, but it's safe.
+    container_name: turismo-db
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: directus
+      POSTGRES_PASSWORD: directus_password
+      POSTGRES_DB: directus
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U directus"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  directus:
+    image: directus/directus:10.10.4 # Using a recent stable version
+    container_name: turismo-cms
+    ports:
+      - "8505:8055"
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      KEY: "b3f8b0e7-3f31-482a-a0f5-46b5a3e1a8a2" # Random static UUID for local dev
+      SECRET: "09f7a77e-2f5f-4a0b-8d02-123456789abc"
+      DB_CLIENT: "pg"
+      DB_HOST: "database"
+      DB_PORT: "5432"
+      DB_DATABASE: "directus"
+      DB_USER: "directus"
+      DB_PASSWORD: "directus_password"
+      ADMIN_EMAIL: "admin@turismo.gov.ec"
+      ADMIN_PASSWORD: "admin"
+      # Auto-apply schema migrations if any, though we use script
+      CACHE_ENABLED: "false" 
+    volumes:
+      - uploads_data:/directus/uploads
+      - extensions_data:/directus/extensions
+
+volumes:
+  db_data:
+  uploads_data:
+  extensions_data:

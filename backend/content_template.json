@@ -1,0 +1,275 @@
+{
+  "Global_Settings": {
+    "vuelos_semanales": 200,
+    "logo_text": "GYE",
+    "logo_subtitle": "Guayaquil",
+    "translations": [
+      {
+        "languages_code": "es",
+        "footer_headline": "Tu proxima aventura empieza aqui.",
+        "footer_copyright": "GAD Municipal de Guayaquil"
+      },
+      {
+        "languages_code": "en",
+        "footer_headline": "Your next adventure begins here.",
+        "footer_copyright": "GAD Municipal de Guayaquil"
+      }
+    ]
+  },
+  "Page_Home": {
+    "status": "published",
+    "coordinates": "-2.1894, -79.8891",
+    "translations": [
+      {
+        "languages_code": "es",
+        "hero_tagline": "TU AVENTURA",
+        "hero_headline_line1": "Descubre",
+        "hero_headline_line2": "Guayaquil",
+        "hero_body_text": "Párrafo sobre Guayaquil...",
+        "hero_cta_primary_label": "Ver Más",
+        "hero_cta_primary_href": "/es/descubre",
+        "hero_cta_secondary_label": "Eventos",
+        "hero_cta_secondary_href": "/es/eventos",
+        "kinetic_marquee_line1": "Texto Marquee 1",
+        "kinetic_marquee_line2": "Texto Marquee 2",
+        "kinetic_section_label": "KINETIC",
+        "kinetic_heading_line1": "Título",
+        "kinetic_heading_line2_stroke": "Stroke",
+        "kinetic_body_paragraph": "Párrafo largo",
+        "kinetic_stats": [
+          { "value": "1.5M", "label": "Visitantes" }
+        ],
+        "experiences_section_label": "EXPERIENCIAS",
+        "experiences_heading_line1": "Vive",
+        "experiences_heading_line2_stroke": "La Ciudad",
+        "experiences_description": "Descripción...",
+        "recorridos_section_label": "RECORRIDOS",
+        "recorridos_heading_line1": "Explora",
+        "recorridos_heading_line2_stroke": "Rutas",
+        "events_section_label": "EVENTOS",
+        "events_heading_line1": "Agenda",
+        "events_heading_line2_stroke": "Cultural",
+        "mice_section_label": "NEGOCIOS",
+        "mice_heading": "Turismo MICE",
+        "mice_description": "Descripción MICE...",
+        "mice_stats": [
+          { "value": "100+", "label": "Eventos Anuales" }
+        ],
+        "mice_services": [
+          { "icon_name": "hotel", "title": "Hotelería", "description": "...", "color_theme": "amber" }
+        ],
+        "mice_amenities": [
+          { "icon_name": "wifi", "label": "Internet Alta Velocidad" }
+        ],
+        "mice_cta_label": "Ver Buro",
+        "mice_cta_href": "/es/mice",
+        "trip_section_label": "VIAJE",
+        "trip_heading_line1": "Planifica",
+        "trip_heading_line2_stroke": "Tu Viaje",
+        "trip_quick_info": [
+          { "icon_name": "flight", "label": "Vuelos", "value": "200+", "sub_text": "Semanales" }
+        ],
+        "trip_transport": [
+          { "icon_name": "bus", "title": "Terminal", "stats": "24/7", "details": "...", "color_theme": "teal" }
+        ],
+        "trip_connections_banner_title": "Conexiones",
+        "trip_connections_banner_subtitle": "Vuelos directos"
+      },
+      {
+        "languages_code": "en",
+        "hero_tagline": "YOUR ADVENTURE",
+        "hero_headline_line1": "Discover",
+        "hero_headline_line2": "Guayaquil",
+        "hero_body_text": "Paragraph about Guayaquil...",
+        "hero_cta_primary_label": "See More",
+        "hero_cta_primary_href": "/en/discover",
+        "hero_cta_secondary_label": "Events",
+        "hero_cta_secondary_href": "/en/events",
+        "kinetic_marquee_line1": "Marquee Text 1",
+        "kinetic_marquee_line2": "Marquee Text 2",
+        "kinetic_section_label": "KINETIC",
+        "kinetic_heading_line1": "Heading",
+        "kinetic_heading_line2_stroke": "Stroke",
+        "kinetic_body_paragraph": "Long paragraph",
+        "kinetic_stats": [
+          { "value": "1.5M", "label": "Visitors" }
+        ],
+        "experiences_section_label": "EXPERIENCES",
+        "experiences_heading_line1": "Experience",
+        "experiences_heading_line2_stroke": "The City",
+        "experiences_description": "Description...",
+        "recorridos_section_label": "ROUTES",
+        "recorridos_heading_line1": "Explore",
+        "recorridos_heading_line2_stroke": "Routes",
+        "events_section_label": "EVENTS",
+        "events_heading_line1": "Cultural",
+        "events_heading_line2_stroke": "Agenda",
+        "mice_section_label": "BUSINESS",
+        "mice_heading": "MICE Tourism",
+        "mice_description": "MICE description...",
+        "mice_stats": [
+          { "value": "100+", "label": "Annual Events" }
+        ],
+        "mice_services": [
+          { "icon_name": "hotel", "title": "Hotels", "description": "...", "color_theme": "amber" }
+        ],
+        "mice_amenities": [
+          { "icon_name": "wifi", "label": "High Speed Internet" }
+        ],
+        "mice_cta_label": "View Bureau",
+        "mice_cta_href": "/en/mice",
+        "trip_section_label": "TRIP",
+        "trip_heading_line1": "Plan",
+        "trip_heading_line2_stroke": "Your Trip",
+        "trip_quick_info": [
+          { "icon_name": "flight", "label": "Flights", "value": "200+", "sub_text": "Weekly" }
+        ],
+        "trip_transport": [
+          { "icon_name": "bus", "title": "Terminal", "stats": "24/7", "details": "...", "color_theme": "teal" }
+        ],
+        "trip_connections_banner_title": "Connections",
+        "trip_connections_banner_subtitle": "Direct flights"
+      }
+    ]
+  },
+  "Page_Descubre_GYE": {
+    "status": "published",
+    "translations": [
+      {
+        "languages_code": "es",
+        "slug": "descubre-guayaquil",
+        "hero_title": "Descubre GYE",
+        "hero_subtitle": "Subtítulo hero",
+        "hero_tagline": "Tagline",
+        "intro_label": "Intro Label",
+        "intro_heading": "Intro Título",
+        "intro_paragraphs": ["Párrafo 1", "Párrafo 2"],
+        "cards": [
+          { "title": "Card 1", "description": "Desc", "icon_name": "star", "link_path": "/es/...", "color_theme": "amber" }
+        ],
+        "stats": [
+          { "number": "1", "label": "Estadística" }
+        ]
+      },
+      {
+        "languages_code": "en",
+        "slug": "discover-guayaquil",
+        "hero_title": "Discover GYE",
+        "hero_subtitle": "Hero subtitle",
+        "hero_tagline": "Tagline",
+        "intro_label": "Intro Label",
+        "intro_heading": "Intro Heading",
+        "intro_paragraphs": ["Paragraph 1", "Paragraph 2"],
+        "cards": [
+          { "title": "Card 1", "description": "Desc", "icon_name": "star", "link_path": "/en/...", "color_theme": "amber" }
+        ],
+        "stats": [
+          { "number": "1", "label": "Statistic" }
+        ]
+      }
+    ]
+  },
+  "Page_Informacion_Util": {
+    "status": "published",
+    "translations": [
+      {
+        "languages_code": "es",
+        "slug": "informacion-util",
+        "title": "Info Útil",
+        "subtitle": "Sub",
+        "tagline": "Tag",
+        "info_cards": [
+          { "icon_name": "info", "label": "Moneda", "value": "USD", "color_theme": "terra" }
+        ],
+        "gateway_banner_icon": "flight",
+        "gateway_banner_label": "Banner Label",
+        "gateway_banner_heading": "Banner Heading",
+        "gateway_banner_body": "Banner Body",
+        "gateway_banner_connections": [
+          { "distance": "2h", "location": "Quito" }
+        ],
+        "visa_info": [
+          { "type": "Turista", "countries": "Todos", "duration": "90 días" }
+        ],
+        "important_note": "<p>Nota importante HTML</p>",
+        "climate_label": "Clima",
+        "climate_heading": "Tropical",
+        "climate_description": "Descripción clima",
+        "climate_seasons": [
+          { "name": "Invierno", "description": "Lluvioso" }
+        ]
+      },
+      {
+        "languages_code": "en",
+        "slug": "useful-information",
+        "title": "Useful Info",
+        "subtitle": "Sub",
+        "tagline": "Tag",
+        "info_cards": [
+          { "icon_name": "info", "label": "Currency", "value": "USD", "color_theme": "terra" }
+        ],
+        "gateway_banner_icon": "flight",
+        "gateway_banner_label": "Banner Label",
+        "gateway_banner_heading": "Banner Heading",
+        "gateway_banner_body": "Banner Body",
+        "gateway_banner_connections": [
+          { "distance": "2h", "location": "Quito" }
+        ],
+        "visa_info": [
+          { "type": "Tourist", "countries": "All", "duration": "90 days" }
+        ],
+        "important_note": "<p>Important note HTML</p>",
+        "climate_label": "Climate",
+        "climate_heading": "Tropical",
+        "climate_description": "Climate description",
+        "climate_seasons": [
+          { "name": "Winter", "description": "Rainy" }
+        ]
+      }
+    ]
+  },
+  "Categorias": [
+    {
+      "status": "published",
+      "key": "gastronomia",
+      "color_theme": "amber",
+      "translations": [
+        { "languages_code": "es", "label": "Gastronomía", "slug": "gastronomia" },
+        { "languages_code": "en", "label": "Gastronomy", "slug": "gastronomy" }
+      ]
+    },
+    {
+      "status": "published",
+      "key": "cultura",
+      "color_theme": "estuary",
+      "translations": [
+        { "languages_code": "es", "label": "Cultura", "slug": "cultura" },
+        { "languages_code": "en", "label": "Culture", "slug": "culture" }
+      ]
+    }
+  ],
+  "Eventos": [
+    {
+      "status": "published",
+      "fecha": "2026-07-25",
+      "color_theme": "terra",
+      "categoria_key": "cultura", 
+      "translations": [
+        {
+          "languages_code": "es",
+          "title": "Fiestas Julianas",
+          "month": "Jul",
+          "description": "Descripción del evento",
+          "slug": "fiestas-julianas"
+        },
+        {
+          "languages_code": "en",
+          "title": "July Festivities",
+          "month": "Jul",
+          "description": "Event description",
+          "slug": "july-festivities"
+        }
+      ]
+    }
+  ]
+}
