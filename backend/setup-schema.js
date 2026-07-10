@@ -122,6 +122,38 @@ async function setupSchema() {
           }
         }));
       }
+
+      // Helper to automatically create relationships for UUID fields (like directus_files and foreign keys)
+      const createRelationsForFields = async (fieldsToProcess, collectionName) => {
+        if (!fieldsToProcess) return;
+        for (const f of fieldsToProcess) {
+          if (f.type === 'uuid' && f.field !== 'id' && f.field !== `${baseName}_id`) {
+            let relatedCollection = 'directus_files';
+            if (f.field === 'categoria_id') relatedCollection = 'Categorias';
+            
+            try {
+              await client.request(createRelation({
+                collection: collectionName,
+                field: f.field,
+                related_collection: relatedCollection,
+                meta: {
+                  many_collection: collectionName,
+                  many_field: f.field,
+                  one_collection: relatedCollection
+                }
+              }));
+            } catch (err) {
+              console.log(`Warning: Failed to create relation for ${collectionName}.${f.field}:`, err.errors?.[0]?.message || err);
+            }
+          }
+        }
+      };
+
+      await createRelationsForFields(baseFields, baseName);
+      if (transFields && transFields.length > 0) {
+        await createRelationsForFields(transFields, `${baseName}_translations`);
+      }
+
     } catch(e) {
       console.log(`Error creating ${baseName}:`, e.errors?.[0]?.message || e);
     }
