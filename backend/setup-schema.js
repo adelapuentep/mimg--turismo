@@ -107,6 +107,9 @@ async function setupSchema() {
           meta: { 
             one_field: 'translations',
             junction_field: 'languages_code'
+          },
+          schema: {
+            on_delete: 'CASCADE'
           }
         }));
 
