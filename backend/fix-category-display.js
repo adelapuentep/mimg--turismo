@@ -14,7 +14,7 @@ async function fixCategoryDisplay() {
     try {
       await client.request(updateField(collectionName, 'categoria_id', {
         meta: {
-          interface: 'select-relational',
+          interface: 'select-dropdown-m2o',
           display: 'related-values',
           display_options: {
             template: '{{translations.label}}'
