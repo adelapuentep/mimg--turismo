@@ -169,7 +169,9 @@ const translationDictionary = {
   "languages_code": "Código Idioma",
   "cta_label": "Texto del Botón (CTA)",
   "cta_link": "Enlace del Botón (CTA)",
-  "number": "Número"
+  "number": "Número",
+  "icon_name": "Icono",
+  "categoria_id": "Categoría"
 };
 
 function formatFallback(key) {

@@ -333,6 +333,7 @@ async function setupSchema() {
   await createTranslatedCollection('Experiencias', 'Experiencias', false, [
     { field: 'imagen', type: 'uuid', meta: { interface: 'file-image' } },
     { field: 'number', type: 'string' },
+    { field: 'icon_name', type: 'string' },
     { field: 'categoria_id', type: 'uuid', meta: { interface: 'select-dropdown-m2o', display: 'related-values', display_options: { template: '{{translations.label}}' } } }
   ], [
     { field: 'name', type: 'string' },
