@@ -330,6 +330,17 @@ async function setupSchema() {
     { field: 'title', type: 'string' }, { field: 'description', type: 'text' }, { field: 'stops', type: 'json' }
   ], 'route');
 
+  await createTranslatedCollection('Experiencias', 'Experiencias', false, [
+    { field: 'imagen', type: 'uuid', meta: { interface: 'file-image' } },
+    { field: 'number', type: 'string' },
+    { field: 'categoria_id', type: 'uuid', meta: { interface: 'select-dropdown-m2o', display: 'related-values', display_options: { template: '{{translations.label}}' } } }
+  ], [
+    { field: 'name', type: 'string' },
+    { field: 'description', type: 'text' },
+    { field: 'cta_label', type: 'string' },
+    { field: 'cta_link', type: 'string' }
+  ], 'star');
+
   // No translations for Aerolineas
   await createTranslatedCollection('Aerolineas', 'Aerolineas', false, [
     { field: 'logo', type: 'uuid', meta: { interface: 'file-image' } }, { field: 'nombre', type: 'string' }

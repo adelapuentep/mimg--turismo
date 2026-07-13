@@ -166,7 +166,10 @@ const translationDictionary = {
   "pais": "País",
   
   "id": "ID",
-  "languages_code": "Código Idioma"
+  "languages_code": "Código Idioma",
+  "cta_label": "Texto del Botón (CTA)",
+  "cta_link": "Enlace del Botón (CTA)",
+  "number": "Número"
 };
 
 function formatFallback(key) {
