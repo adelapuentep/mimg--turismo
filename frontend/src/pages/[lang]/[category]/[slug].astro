@@ -2,6 +2,7 @@
 import { directus } from '../../../lib/directus';
 import { readItems } from '@directus/sdk';
 import LanguageSwitcher from '../../../components/LanguageSwitcher.astro';
+import CustomCursor from '../../../components/CustomCursor.tsx';
 import '../../../styles/global.css';
 
 export const prerender = true;
@@ -63,8 +64,9 @@ try {
     <title>{itemData?.title || slug}</title>
   </head>
   <body class="bg-canvas-100 text-ink-900 font-sans">
+    <CustomCursor client:load />
     <header class="p-6 flex justify-between items-center border-b border-ink-300">
-      <a href={`/${lang}`} class="text-2xl font-bold font-serif text-ink-900 tracking-tightest">Guayaquil.</a>
+      <a href={`/${lang}`} class="text-2xl font-bold font-serif text-ink-900 tracking-tightest" data-cursor="Inicio">Guayaquil.</a>
       <LanguageSwitcher currentLang={lang} translations={itemTranslations} categoryTranslations={categoryTranslations} type="item" />
     </header>
     

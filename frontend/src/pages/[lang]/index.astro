@@ -2,6 +2,7 @@
 import { directus } from '../../lib/directus';
 import { readItems } from '@directus/sdk';
 import LanguageSwitcher from '../../components/LanguageSwitcher.astro';
+import CustomCursor from '../../components/CustomCursor.tsx';
 import '../../styles/global.css';
 
 export const prerender = true;
@@ -44,6 +45,7 @@ try {
     <title>{pageData?.title || 'Guayaquil Turismo'}</title>
   </head>
   <body>
+    <CustomCursor client:load />
     <header class="p-6 flex justify-between items-center relative z-10">
       <h1 class="text-2xl font-bold font-serif text-ink-900 tracking-tightest">Guayaquil.</h1>
       <LanguageSwitcher currentLang={lang} translations={allTranslations} type="home" />
