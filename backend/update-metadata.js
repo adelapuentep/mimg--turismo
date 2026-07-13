@@ -51,6 +51,7 @@ const translationDictionary = {
   "trip_connections_banner_title": "Título Banner Conexiones",
   "trip_connections_banner_subtitle": "Subtítulo Banner Conexiones",
   "trip_connections_banner_image": "Imagen Banner Conexiones",
+  "trip_connections_banner_stats": "Estadísticas de Conexiones",
 
   "hero_title": "Título Principal",
   "hero_subtitle": "Subtítulo Principal",

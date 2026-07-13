@@ -5,6 +5,14 @@ const EMAIL = 'admin@turismo.gov.ec';
 const PASSWORD = 'admin';
 
 const repeaterMappings = {
+  // Page_Home_translations
+  'Page_Home_translations': {
+    'trip_connections_banner_stats': [
+      { field: 'value', type: 'string', name: 'Valor', meta: { interface: 'input' } },
+      { field: 'label', type: 'string', name: 'Etiqueta', meta: { interface: 'input' } }
+    ]
+  },
+
   // Page_Descubre_GYE_translations
   'Page_Descubre_GYE_translations': {
     'intro_paragraphs': [

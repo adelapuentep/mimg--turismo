@@ -209,7 +209,8 @@ async function setupSchema() {
     { field: 'mice_cta_href', type: 'string' }, { field: 'trip_section_label', type: 'string' }, { field: 'trip_heading_line1', type: 'string' },
     { field: 'trip_heading_line2_stroke', type: 'string' }, { field: 'trip_quick_info', type: 'json' }, { field: 'trip_transport', type: 'json' },
     { field: 'trip_connections_banner_title', type: 'string' }, { field: 'trip_connections_banner_subtitle', type: 'string' },
-    { field: 'trip_connections_banner_image', type: 'uuid', meta: { interface: 'file-image' } }
+    { field: 'trip_connections_banner_image', type: 'uuid', meta: { interface: 'file-image' } },
+    { field: 'trip_connections_banner_stats', type: 'json' }
   ], 'web');
 
   await createTranslatedCollection('Page_Descubre_GYE', 'Page Descubre GYE', true, [
