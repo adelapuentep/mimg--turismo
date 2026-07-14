@@ -1,0 +1,185 @@
+---
+import { 
+  Building2, 
+  Users, 
+  Key, 
+  Award, 
+  MapPin, 
+  Wifi, 
+  Utensils, 
+  Briefcase 
+} from 'lucide-react';
+
+interface Props {
+  pageData: any;
+  lang: string;
+}
+
+const { pageData, lang } = Astro.props;
+
+// Localized Buró description
+const buroDescription: Record<string, string> = {
+  es: "El Buró de Convenciones de Guayaquil ofrece asistencia gratuita en la planificación, logística y coordinación de tu evento corporativo.",
+  en: "The Guayaquil Convention Bureau offers free assistance in the planning, logistics and coordination of your corporate event.",
+  pt: "O Bureau de Convenções de Guayaquil oferece assistência gratuita no planejamento, logística e coordenação do seu evento corporativo.",
+  fr: "Le Bureau des Conventions de Guayaquil offre une assistance gratuite pour la planification, la logistique et la coordination de votre événement d'entreprise.",
+  de: "Das Guayaquil Convention Bureau bietet kostenlose Unterstützung bei der Planung, Logistik und Koordination Ihrer Firmenveranstaltung."
+};
+
+const getBuroText = buroDescription[lang] || buroDescription['es'];
+
+// Services Icon Mapping
+const serviceIcons = [
+  { icon: Building2, color: 'text-terra-600' },
+  { icon: Users, color: 'text-estuary-600' },
+  { icon: Key, color: 'text-terra-500' },
+  { icon: Award, color: 'text-emerald-600' }
+];
+
+// Amenities Icon Mapping
+const amenityIcons = [
+  MapPin,
+  Wifi,
+  Utensils,
+  Briefcase
+];
+---
+
+<section class="relative w-full py-24 sm:py-32 lg:py-40 bg-ink-900 text-white overflow-hidden select-none">
+  <div class="w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col">
+    
+    <!-- Section Header -->
+    <div class="flex flex-col mb-16 sm:mb-20">
+      <!-- Section Label (Full Width) -->
+      {pageData?.mice_section_label && (
+        <div class="flex items-center gap-3 mb-6">
+          <span class="h-[1px] w-6 bg-amber-500/80"></span>
+          <span class="text-[10px] sm:text-xs font-sans font-semibold tracking-[0.2em] text-amber-500 uppercase whitespace-nowrap">
+            {pageData.mice_section_label}
+          </span>
+        </div>
+      )}
+
+      <!-- Split Grid for Title & Description -->
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-16 items-start">
+        <!-- Left: Title -->
+        <div class="md:col-span-5 flex flex-col">
+          <h2 class="font-serif font-bold leading-[1.05] tracking-tight uppercase flex flex-col">
+            <span class="text-4xl sm:text-5xl md:text-6xl text-white">Turismo</span>
+            <span class="text-4xl sm:text-5xl md:text-6xl text-amber-500 mt-1">MICE</span>
+          </h2>
+        </div>
+
+        <!-- Right: Description -->
+        <div class="md:col-span-7 md:pt-4">
+          {pageData?.mice_description && (
+            <p class="text-sm sm:text-base text-ink-300 font-sans leading-relaxed max-w-2xl">
+              {pageData.mice_description}
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    {pageData?.mice_stats && Array.isArray(pageData.mice_stats) && (
+      <div class="grid grid-cols-2 lg:grid-cols-4 border-y border-white/10 py-8 mb-16 sm:mb-20">
+        {pageData.mice_stats.map((stat: any, index: number) => {
+          const hasBorder = index < 3;
+          return (
+            <div class={`flex flex-col items-center text-center px-4 ${hasBorder ? 'lg:border-r border-white/10' : ''}`}>
+              <span class="text-3xl sm:text-4xl font-serif font-bold text-amber-500 mb-2 leading-none">
+                {stat.value}
+              </span>
+              <span class="text-[9px] sm:text-[10px] font-sans font-semibold tracking-wider text-ink-400 uppercase">
+                {stat.label}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    )}
+
+    <!-- Services Grid -->
+    {pageData?.mice_services && Array.isArray(pageData.mice_services) && (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 xl:gap-8 mb-16 sm:mb-20">
+        {pageData.mice_services.map((service: any, index: number) => {
+          const iconConfig = serviceIcons[index % serviceIcons.length] || { icon: Building2, color: 'text-amber-500' };
+          const IconComponent = iconConfig.icon;
+
+          return (
+            <div class="flex flex-col bg-ink-800/20 border border-white/5 rounded-3xl p-8 sm:p-10 hover:border-white/10 transition-colors duration-300">
+              
+              <!-- Icon Container -->
+              <div class="w-12 h-12 flex items-center justify-center bg-white rounded-xl mb-6 shadow-sm">
+                <IconComponent className={`w-5 h-5 ${iconConfig.color}`} />
+              </div>
+              
+              <!-- Service Title -->
+              <h3 class="text-lg sm:text-xl font-serif font-bold text-white mb-3">
+                {service.title}
+              </h3>
+              
+              <!-- Service Description -->
+              <p class="text-sm text-ink-300 leading-relaxed font-sans">
+                {service.description}
+              </p>
+              
+            </div>
+          );
+        })}
+      </div>
+    )}
+
+    <!-- Divider Line -->
+    <div class="w-full h-[1px] bg-white/10 mb-16"></div>
+
+    <!-- Bottom Amenities & Buró Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+      
+      <!-- Left Side: Amenities List -->
+      <div class="lg:col-span-6 flex flex-col items-start">
+        <span class="text-[10px] sm:text-xs font-sans font-semibold tracking-widest text-amber-500 uppercase mb-6 block">
+          Por Qué Elegir Guayaquil
+        </span>
+        
+        {pageData?.mice_amenities && Array.isArray(pageData.mice_amenities) && (
+          <div class="flex flex-col gap-4 sm:gap-5 w-full">
+            {pageData.mice_amenities.map((amenity: any, index: number) => {
+              const Icon = amenityIcons[index % amenityIcons.length] || MapPin;
+              return (
+                <div class="flex items-center gap-4 text-white/90">
+                  <div class="w-8 h-8 flex items-center justify-center bg-amber-500/10 rounded-lg text-amber-500 flex-shrink-0">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  <span class="text-xs sm:text-sm font-sans font-medium">
+                    {amenity.label}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      <!-- Right Side: Buró Info & CTA -->
+      <div class="lg:col-span-6 flex flex-col items-start lg:items-end lg:text-right">
+        <p class="text-sm text-ink-300 font-sans leading-relaxed mb-8 max-w-xl">
+          {getBuroText}
+        </p>
+        
+        {pageData?.mice_cta_label && (
+          <a
+            href={pageData.mice_cta_href}
+            class="group w-full sm:w-auto px-8 py-3.5 rounded-full bg-amber-500 text-ink-900 font-sans font-semibold text-xs tracking-wider uppercase text-center transition-all duration-300 hover:bg-amber-400 hover:scale-105 active:scale-95 flex items-center justify-center gap-2"
+          >
+            <span>{pageData.mice_cta_label}</span>
+            <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </a>
+        )}
+      </div>
+
+    </div>
+
+  </div>
+</section>
