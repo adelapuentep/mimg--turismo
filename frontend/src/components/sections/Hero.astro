@@ -1,0 +1,95 @@
+---
+interface Props {
+  pageData: any;
+}
+
+const { pageData } = Astro.props;
+
+const directusUrl = import.meta.env.PUBLIC_DIRECTUS_URL || 'http://localhost:8505';
+const heroImageUrl = pageData?.hero_image ? `${directusUrl}/assets/${pageData.hero_image}` : '';
+---
+
+<section class="relative min-h-screen w-full flex flex-col justify-center items-center overflow-hidden bg-canvas-200">
+  <!-- Background Image -->
+  {heroImageUrl && (
+    <div class="absolute inset-0 z-0">
+      <img 
+        src={heroImageUrl} 
+        alt={pageData?.hero_headline_line1 || "Guayaquil"} 
+        class="w-full h-full object-cover object-center"
+      />
+    </div>
+  )}
+
+  <!-- Overlays -->
+  <div class="absolute inset-0 bg-black/35 z-10"></div>
+  <div class="absolute inset-x-0 top-0 h-[30%] bg-gradient-to-b from-black/60 to-transparent z-10"></div>
+  <div class="absolute inset-x-0 bottom-0 h-[45%] bg-gradient-to-t from-canvas-100 via-canvas-100/60 to-transparent z-10"></div>
+
+  <!-- Content Container -->
+  <div class="relative z-20 w-full max-w-5xl px-6 md:px-12 text-center flex flex-col items-center justify-center mt-12 md:mt-20">
+    
+    <!-- Tagline with lines -->
+    <div class="flex items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8 w-full max-w-2xl">
+      <span class="h-[1px] flex-1 bg-white/30 max-w-[40px] sm:max-w-[80px]"></span>
+      <span class="text-[10px] sm:text-xs font-sans font-semibold tracking-[0.2em] text-white/90 uppercase text-center">
+        {pageData?.hero_tagline}
+      </span>
+      <span class="h-[1px] flex-1 bg-white/30 max-w-[40px] sm:max-w-[80px]"></span>
+    </div>
+
+    <!-- Main Headline -->
+    <h1 class="font-serif font-bold text-white text-center flex flex-col items-center tracking-tight leading-[0.88] uppercase select-none">
+      <span class="text-[11vw] sm:text-[9vw] lg:text-[8vw]">
+        {pageData?.hero_headline_line1}
+      </span>
+      <span class="text-[11vw] sm:text-[9vw] lg:text-[8vw] text-outline-white">
+        {pageData?.hero_headline_line2}
+      </span>
+    </h1>
+
+    <!-- Body Text -->
+    {pageData?.hero_body_text && (
+      <p class="mt-6 sm:mt-8 text-sm sm:text-base md:text-lg text-white/90 font-sans max-w-2xl mx-auto leading-[1.6] sm:leading-[1.7] whitespace-pre-line text-center">
+        {pageData.hero_body_text}
+      </p>
+    )}
+
+    <!-- CTA Buttons -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mt-8 sm:mt-10 w-full">
+      {pageData?.hero_cta_primary_label && (
+        <a 
+          href={pageData.hero_cta_primary_href} 
+          class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-white text-ink-900 font-sans font-semibold text-xs tracking-wider uppercase text-center transition-all duration-300 hover:bg-canvas-100 hover:scale-105 active:scale-95 shadow-lg shadow-black/10"
+        >
+          {pageData.hero_cta_primary_label}
+        </a>
+      )}
+      {pageData?.hero_cta_secondary_label && (
+        <a 
+          href={pageData.hero_cta_secondary_href} 
+          class="w-full sm:w-auto px-6 py-3 text-white/90 hover:text-white font-sans font-semibold text-xs tracking-wider uppercase text-center transition-all duration-300 hover:scale-105 flex items-center justify-center gap-2 group"
+        >
+          <span>{pageData.hero_cta_secondary_label}</span>
+          <span class="transition-transform duration-300 group-hover:translate-y-1">↓</span>
+        </a>
+      )}
+    </div>
+  </div>
+
+  <!-- Left: Scroll Text -->
+  <div class="absolute left-6 md:left-8 bottom-12 z-20 hidden md:flex flex-col items-center gap-3">
+    <span class="text-[10px] uppercase tracking-[0.2em] text-white/60 font-sans [writing-mode:vertical-lr] select-none pointer-events-none">
+      SCROLL
+    </span>
+  </div>
+
+  <!-- Right: Coordinates -->
+  {pageData?.coordinates && (
+    <div class="absolute right-6 md:right-8 bottom-12 z-20 font-sans select-none pointer-events-none text-right">
+      <span class="text-[10px] sm:text-xs tracking-widest text-white/60">
+        {pageData.coordinates}
+      </span>
+    </div>
+  )}
+</section>

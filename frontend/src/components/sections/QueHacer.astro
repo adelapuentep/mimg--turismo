@@ -1,0 +1,122 @@
+---
+interface Props {
+  pageData: any;
+  recorridos: any[];
+  lang: string;
+}
+
+const { pageData, recorridos, lang } = Astro.props;
+
+const directusUrl = import.meta.env.PUBLIC_DIRECTUS_URL || 'http://localhost:8505';
+---
+
+<section class="relative w-full py-24 sm:py-32 lg:py-40 bg-canvas-100 overflow-hidden select-none">
+  <div class="w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col">
+    
+    <!-- Section Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 mb-16 sm:mb-20">
+      <div class="flex flex-col">
+        {pageData?.recorridos_section_label && (
+          <span class="text-[10px] sm:text-xs font-sans font-semibold tracking-[0.2em] text-terra-600 uppercase mb-3">
+            {pageData.recorridos_section_label}
+          </span>
+        )}
+        <h2 class="font-serif font-bold text-ink-900 leading-[1.05] tracking-tight uppercase flex flex-col">
+          <span class="text-4xl sm:text-5xl lg:text-6xl text-ink-900">
+            {pageData?.recorridos_heading_line1}
+          </span>
+          <span class="text-4xl sm:text-5xl lg:text-6xl text-outline mt-1">
+            {pageData?.recorridos_heading_line2_stroke}
+          </span>
+        </h2>
+      </div>
+      
+      {recorridos && recorridos.length > 0 && (
+        <div class="text-[10px] sm:text-xs font-sans font-semibold tracking-[0.2em] text-ink-500 uppercase border-b border-canvas-300 pb-1">
+          {recorridos.length} {recorridos.length === 1 ? 'itinerario' : 'itinerarios'}
+        </div>
+      )}
+    </div>
+
+    <!-- Recorridos Grid / List -->
+    <div class="flex flex-col gap-10 sm:gap-12 lg:gap-16">
+      {recorridos && recorridos.map((recorrido, index) => {
+        // Resolve translated content for current language
+        const translation = recorrido.translations?.find((t: any) => t.languages_code === lang) || {};
+        const title = translation.title || '';
+        const description = translation.description || '';
+        const stops = translation.stops || [];
+        
+        // Resolve image URL
+        const imageUrl = recorrido.imagen ? `${directusUrl}/assets/${recorrido.imagen}` : '';
+        
+        // Determine layout order (alternating)
+        const isAlternate = index % 2 === 1;
+
+        return (
+          <div class={`w-full flex flex-col ${isAlternate ? 'lg:flex-row-reverse' : 'lg:flex-row'} bg-white rounded-[2rem] overflow-hidden shadow-sm border border-canvas-200/50 hover:shadow-md transition-shadow duration-300`}>
+            
+            <!-- Image Area -->
+            <div class="w-full lg:w-1/2 min-h-[260px] sm:min-h-[320px] lg:min-h-[420px] relative overflow-hidden bg-canvas-200">
+              {imageUrl && (
+                <img 
+                  src={imageUrl} 
+                  alt={title} 
+                  class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 hover:scale-105"
+                />
+              )}
+              
+              <!-- Duration Pill -->
+              {recorrido.duracion && (
+                <div class="absolute bottom-4 left-4 z-10 flex items-center gap-1.5 bg-black/45 backdrop-blur-sm text-white text-[10px] sm:text-xs font-semibold px-3 py-1.5 rounded-full select-none">
+                  <!-- Clock SVG Icon -->
+                  <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="w-3 h-3">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                  </svg>
+                  <span>{recorrido.duracion}</span>
+                </div>
+              )}
+            </div>
+
+            <!-- Content Area -->
+            <div class="w-full lg:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col justify-center relative overflow-hidden bg-white">
+              
+              <!-- Route Number in background -->
+              {recorrido.numero_ruta && (
+                <span class="absolute top-4 left-6 lg:top-8 lg:left-8 text-[7rem] sm:text-[9rem] lg:text-[11rem] font-serif font-bold text-canvas-200/35 leading-none select-none pointer-events-none z-0">
+                  {recorrido.numero_ruta}
+                </span>
+              )}
+
+              <!-- Title, Description & Stops Container -->
+              <div class="relative z-10 flex flex-col">
+                <h3 class="text-2xl sm:text-3xl font-serif font-bold text-ink-900 mb-4 tracking-tight leading-tight">
+                  {title}
+                </h3>
+                
+                <p class="text-sm sm:text-base text-ink-700 font-sans leading-relaxed mb-6 max-w-xl">
+                  {description}
+                </p>
+
+                <!-- Stops Tags -->
+                {stops && stops.length > 0 && (
+                  <div class="flex flex-wrap gap-2 mt-2">
+                    {stops.map((stop: any) => (
+                      <span class="bg-canvas-50 border border-canvas-200 text-ink-600 px-3 py-1.5 rounded-full text-[9px] sm:text-[10px] tracking-wider font-sans font-semibold uppercase">
+                        {stop.name}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              
+            </div>
+
+          </div>
+        );
+      })}
+    </div>
+
+  </div>
+</section>

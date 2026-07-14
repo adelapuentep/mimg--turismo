@@ -1,0 +1,154 @@
+---
+import { 
+  UtensilsCrossed, 
+  Landmark, 
+  TreePine, 
+  Waves, 
+  Moon, 
+  ShoppingBag, 
+  Compass 
+} from 'lucide-react';
+
+interface Props {
+  pageData: any;
+  experiencias: any[];
+  lang: string;
+}
+
+const { pageData, experiencias, lang } = Astro.props;
+
+const directusUrl = import.meta.env.PUBLIC_DIRECTUS_URL || 'http://localhost:8505';
+
+// Lucide Icon mapper helper
+const iconMap: Record<string, any> = {
+  'lucide-utensils-crossed': UtensilsCrossed,
+  'lucide-landmark': Landmark,
+  'lucide-tree-pine': TreePine,
+  'lucide-waves': Waves,
+  'lucide-moon': Moon,
+  'lucide-shopping-bag': ShoppingBag
+};
+
+function getIcon(iconName: string) {
+  return iconMap[iconName] || Compass;
+}
+---
+
+<section class="relative w-full py-24 sm:py-32 lg:py-40 bg-canvas-100 text-ink-900 overflow-hidden select-none">
+  <div class="w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col">
+    
+    <!-- Section Header -->
+    <div class="flex flex-col mb-16 sm:mb-24">
+      {pageData?.experiences_section_label && (
+        <div class="flex items-center gap-3 mb-4">
+          <span class="h-[1px] w-6 bg-amber-500/80"></span>
+          <span class="text-[10px] sm:text-xs font-sans font-semibold tracking-[0.2em] text-amber-600 uppercase">
+            {pageData.experiences_section_label}
+          </span>
+        </div>
+      )}
+      <h2 class="font-serif font-bold text-ink-900 leading-[1.05] tracking-tight uppercase flex flex-col mb-6">
+        <span class="text-4xl sm:text-5xl lg:text-6xl text-ink-900">
+          {pageData?.experiences_heading_line1 || 'Experiencias'}
+        </span>
+        <span class="text-4xl sm:text-5xl lg:text-6xl text-outline mt-1">
+          {pageData?.experiences_heading_line2_stroke || 'Únicas'}
+        </span>
+      </h2>
+      
+      {pageData?.experiences_description && (
+        <p class="text-sm sm:text-base text-ink-600 max-w-xl leading-relaxed font-sans">
+          {pageData.experiences_description}
+        </p>
+      )}
+    </div>
+
+    <!-- Experiences Alternate List -->
+    <div class="flex flex-col gap-24 sm:gap-32 lg:gap-40">
+      {experiencias && experiencias.map((item, index) => {
+        // Resolve translated content
+        const translation = item.translations?.find((t: any) => t.languages_code === lang) || {};
+        const name = translation.name || '';
+        const description = translation.description || '';
+        const ctaLabel = translation.cta_label || 'Descubrir más';
+        const ctaLink = translation.cta_link || `/#descubre-gye`;
+        
+        // Resolve category
+        const categoryTranslation = item.categoria_id?.translations?.find((t: any) => t.languages_code === lang) || {};
+        const categoryLabel = categoryTranslation.label || '';
+        
+        // Resolve image URL
+        const imageUrl = item.imagen ? `${directusUrl}/assets/${item.imagen}` : '';
+        
+        // Determine layout order (alternating)
+        const isAlternate = index % 2 === 1;
+        const IconComponent = getIcon(item.icon_name);
+
+        return (
+          <div class={`w-full flex flex-col ${isAlternate ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-10 lg:gap-16`}>
+            
+            <!-- Image Column -->
+            <div class="w-full lg:w-1/2 aspect-[4/5] relative rounded-[2rem] overflow-hidden bg-canvas-200 shadow-sm group">
+              {imageUrl && (
+                <img 
+                  src={imageUrl} 
+                  alt={categoryLabel} 
+                  class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                />
+              )}
+              
+              <!-- Badge overlay -->
+              {name && (
+                <div class="absolute top-6 left-6 z-20 flex items-center gap-2 bg-[#fdfbf8]/95 backdrop-blur-sm shadow-sm rounded-full px-4 py-2 select-none">
+                  {IconComponent && (
+                    <IconComponent className="w-3.5 h-3.5 text-amber-700" />
+                  )}
+                  <span class="text-[9px] sm:text-[10px] font-sans font-bold tracking-wider text-amber-700 uppercase">
+                    {name}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <!-- Content Column -->
+            <div class="w-full lg:w-1/2 flex flex-col justify-center relative min-h-[260px] sm:min-h-[320px]">
+              
+              <!-- Big Number in Background -->
+              {item.number && (
+                <span class={`absolute top-0 text-[8rem] sm:text-[10rem] lg:text-[12rem] font-serif font-bold text-ink-900 leading-none select-none pointer-events-none z-0 ${isAlternate ? 'left-0' : 'right-0'}`}>
+                  {item.number}
+                </span>
+              )}
+
+              <!-- Text content container -->
+              <div class={`relative z-10 flex flex-col ${isAlternate ? 'mt-24 sm:mt-28' : 'mt-6'}`}>
+                
+                <!-- Category as big Title -->
+                <h3 class="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-ink-900 mb-4 tracking-tight leading-tight uppercase">
+                  {categoryLabel}
+                </h3>
+                
+                <!-- Description -->
+                <p class="text-sm sm:text-base text-ink-700 font-sans leading-relaxed mb-6 max-w-md">
+                  {description}
+                </p>
+
+                <!-- CTA Button Link -->
+                <a
+                  href={ctaLink}
+                  class="group text-[10px] sm:text-xs font-sans font-bold tracking-[0.2em] text-amber-700 hover:text-amber-600 uppercase flex items-center gap-2 transition-colors duration-300 w-fit"
+                >
+                  <span>{ctaLabel}</span>
+                  <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+                </a>
+              </div>
+
+            </div>
+
+          </div>
+        );
+      })}
+    </div>
+
+  </div>
+</section>

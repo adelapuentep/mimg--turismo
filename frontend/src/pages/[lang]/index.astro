@@ -1,8 +1,16 @@
 ---
 import { directus } from '../../lib/directus';
-import { readItems } from '@directus/sdk';
-import LanguageSwitcher from '../../components/LanguageSwitcher.astro';
+import { readItems, readSingleton } from '@directus/sdk';
 import CustomCursor from '../../components/CustomCursor.tsx';
+import Header from '../../components/Header.tsx';
+import Hero from '../../components/sections/Hero.astro';
+import About from '../../components/sections/About.astro';
+import DescubreGye from '../../components/sections/DescubreGye.astro';
+import QueHacer from '../../components/sections/QueHacer.astro';
+import Eventos from '../../components/sections/Eventos.astro';
+import TurismoMice from '../../components/sections/TurismoMice.astro';
+import Planifica from '../../components/sections/Planifica.astro';
+import Footer from '../../components/Footer.astro';
 import '../../styles/global.css';
 
 export const prerender = true;
@@ -36,6 +44,75 @@ try {
 } catch (error) {
   console.error('Failed to fetch Page_Home content');
 }
+
+let recorridos = [];
+try {
+  recorridos = await directus.request(readItems('Recorridos', {
+    fields: ['*', 'translations.*'],
+    filter: {
+      status: {
+        _eq: 'published'
+      }
+    },
+    sort: ['numero_ruta']
+  }));
+} catch (error) {
+  console.error('Failed to fetch Recorridos content', error);
+}
+
+let eventos = [];
+try {
+  eventos = await directus.request(readItems('Eventos', {
+    fields: ['*', 'translations.*', 'categoria_id.*', 'categoria_id.translations.*'],
+    filter: {
+      status: {
+        _eq: 'published'
+      }
+    },
+    limit: 4
+  }));
+} catch (error) {
+  console.error('Failed to fetch Eventos content', error);
+}
+
+let experiencias = [];
+try {
+  experiencias = await directus.request(readItems('Experiencias', {
+    fields: ['*', 'translations.*', 'categoria_id.*', 'categoria_id.translations.*'],
+    filter: {
+      status: {
+        _eq: 'published'
+      }
+    },
+    sort: ['number']
+  }));
+} catch (error) {
+  console.error('Failed to fetch Experiencias content', error);
+}
+
+let settings = null;
+try {
+  settings = await directus.request(readSingleton('Global_Settings', {
+    fields: ['*', 'translations.*']
+  }));
+} catch (error) {
+  console.error('Failed to fetch Global Settings', error);
+}
+
+const availableLangs = ['es', 'en', 'pt', 'fr', 'de'];
+const langNames: Record<string, string> = {
+  es: 'Español',
+  en: 'English',
+  pt: 'Português',
+  fr: 'Français',
+  de: 'Deutsch'
+};
+
+const headerLanguages = availableLangs.map((l) => ({
+  code: l,
+  name: langNames[l] || l,
+  url: `/${l}`
+}));
 ---
 
 <html lang={lang}>
@@ -44,21 +121,36 @@ try {
     <meta name="viewport" content="width=device-width" />
     <title>{pageData?.title || 'Guayaquil Turismo'}</title>
   </head>
-  <body>
+  <body class="bg-canvas-100 text-ink-900 font-sans antialiased overflow-x-hidden">
     <CustomCursor client:load />
-    <header class="p-6 flex justify-between items-center relative z-10">
-      <h1 class="text-2xl font-bold font-serif text-ink-900 tracking-tightest">Guayaquil.</h1>
-      <LanguageSwitcher currentLang={lang} translations={allTranslations} type="home" />
-    </header>
 
-    <main class="grain min-h-screen relative -mt-[88px] flex flex-col justify-center items-center px-4">
-      <div class="relative z-10 text-center max-w-5xl">
-        <h2 class="heading-hero text-gradient mb-6">
-          {pageData?.title || 'Descubre Guayaquil'}
-        </h2>
-        <div class="text-xl md:text-2xl text-ink-700 font-serif max-w-3xl mx-auto leading-relaxed" 
-             set:html={pageData?.content || '<p>La Perla del Pacífico te espera.</p>'} />
-      </div>
+    <!-- 1. Header (Sitewide) -->
+    <Header currentLang={lang} languages={headerLanguages} client:load />
+
+    <main class="grain">
+      <!-- 2. Hero Section -->
+      <Hero pageData={pageData} />
+
+      <!-- 3. About Section -->
+      <About pageData={pageData} />
+
+      <!-- 4. Descubre GYE Section -->
+      <DescubreGye pageData={pageData} experiencias={experiencias} lang={lang} />
+
+      <!-- 5. ¿Qué hacer? Section -->
+      <QueHacer pageData={pageData} recorridos={recorridos} lang={lang} />
+
+      <!-- 6. Eventos Section -->
+      <Eventos pageData={pageData} eventos={eventos} lang={lang} />
+
+      <!-- 7. Turismo MICE Section -->
+      <TurismoMice pageData={pageData} lang={lang} />
+
+      <!-- 8. Planifica Section -->
+      <Planifica pageData={pageData} lang={lang} />
     </main>
+
+    <!-- 9. Footer (Sitewide) -->
+    <Footer settings={settings} lang={lang} />
   </body>
 </html>
